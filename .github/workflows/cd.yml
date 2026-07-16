@@ -35,9 +35,12 @@ jobs:
           pip install -r requirements.txt
           
           # 4. Tắt server cũ đang chạy ngầm (nếu có) để tránh trùng port
+          # Tắt server cũ nếu đang chạy
           pkill -f uvicorn || true
-          
-          # 5. Khởi chạy server FastAPI chạy ngầm (background) ở port 8000
-          nohup uvicorn main:app --host 0.0.0.0 --port 8000 > uvicorn.log 2>&1 &
+            
+            # Khởi chạy server FastAPI chạy ngầm và NGẮT HOÀN TOÀN kết nối nhập/xuất để giải phóng terminal
+          nohup uvicorn main:app --host 0.0.0.0 --port 8000 </dev/null > uvicorn.log 2>&1 &
+            
+          echo "CD completed successfully!"
           
           echo "CD completed successfully!"  
