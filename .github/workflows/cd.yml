@@ -2,7 +2,7 @@ name: Continuous Deployment to Azure
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "master" ]
 
 jobs:
   deploy:
