@@ -21,7 +21,7 @@ jobs:
         port: 22
         script: |
           # 1. Di chuyển vào thư mục app trên Azure
-          cd /home/azureuser/app
+          cd app
           
           # 2. Kéo code mới nhất từ GitHub về (Nếu là lần đầu, bạn có thể cần git clone hoặc thiết lập thư mục git trước)
           # Để đơn giản cho lần đầu thử nghiệm, ta đồng bộ code bằng cách kéo từ repo (đảm bảo repo công khai hoặc đã cấu hình deploy key)
