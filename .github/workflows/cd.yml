@@ -1,0 +1,43 @@
+name: Continuous Deployment to Azure
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout source code
+      uses: actions/checkout@v4
+
+    - name: Deploy to Azure via SSH
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.SERVER_HOST }}
+        username: ${{ secrets.SERVER_USER }}
+        key: ${{ secrets.SERVER_SSH_KEY }}
+        port: 22
+        script: |
+          # 1. Di chuyển vào thư mục app trên Azure
+          cd /home/azureuser/app
+          
+          # 2. Kéo code mới nhất từ GitHub về (Nếu là lần đầu, bạn có thể cần git clone hoặc thiết lập thư mục git trước)
+          # Để đơn giản cho lần đầu thử nghiệm, ta đồng bộ code bằng cách kéo từ repo (đảm bảo repo công khai hoặc đã cấu hình deploy key)
+          # Hoặc nếu chưa setup git trên server, bạn có thể dùng lệnh echo/cat để test.
+          
+          # Giả sử bạn đã git clone repo vào thư mục này trước đó:
+          git pull origin main
+          
+          # 3. Kích hoạt môi trường ảo và cài đặt thư viện mới nếu có
+          source venv/bin/activate
+          pip install -r requirements.txt
+          
+          # 4. Tắt server cũ đang chạy ngầm (nếu có) để tránh trùng port
+          pkill -f uvicorn || true
+          
+          # 5. Khởi chạy server FastAPI chạy ngầm (background) ở port 8000
+          nohup uvicorn main:app --host 0.0.0.0 --port 8000 > uvicorn.log 2>&1 &
+          
+          echo "CD completed successfully!"
