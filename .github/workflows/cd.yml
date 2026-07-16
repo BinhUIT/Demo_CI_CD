@@ -39,8 +39,6 @@ jobs:
           pkill -f uvicorn || true
             
             # Khởi chạy server FastAPI chạy ngầm và NGẮT HOÀN TOÀN kết nối nhập/xuất để giải phóng terminal
-          nohup uvicorn main:app --host 0.0.0.0 --port 8000 </dev/null > uvicorn.log 2>&1 &
-            
-          echo "CD completed successfully!"
+          nohup venv/bin/uvicorn src.main:app --host 0.0.0.0 --port 8000 > uvicorn.log 2>&1 </dev/null &
           
           echo "CD completed successfully!"  
