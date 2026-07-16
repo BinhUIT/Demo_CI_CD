@@ -28,7 +28,7 @@ jobs:
           # Hoặc nếu chưa setup git trên server, bạn có thể dùng lệnh echo/cat để test.
           
           # Giả sử bạn đã git clone repo vào thư mục này trước đó:
-          git pull origin main
+          git pull origin master
           
           # 3. Kích hoạt môi trường ảo và cài đặt thư viện mới nếu có
           source venv/bin/activate
