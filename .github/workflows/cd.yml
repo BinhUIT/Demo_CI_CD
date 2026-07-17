@@ -20,25 +20,15 @@ jobs:
         key: ${{ secrets.SERVER_SSH_KEY }}
         port: 22
         script: |
-          # 1. Di chuyển vào thư mục app trên Azure
           cd app
-          
-          # 2. Kéo code mới nhất từ GitHub về (Nếu là lần đầu, bạn có thể cần git clone hoặc thiết lập thư mục git trước)
-          # Để đơn giản cho lần đầu thử nghiệm, ta đồng bộ code bằng cách kéo từ repo (đảm bảo repo công khai hoặc đã cấu hình deploy key)
-          # Hoặc nếu chưa setup git trên server, bạn có thể dùng lệnh echo/cat để test.
-          
-          # Giả sử bạn đã git clone repo vào thư mục này trước đó:
           git pull origin master
-          
-          # 3. Kích hoạt môi trường ảo và cài đặt thư viện mới nếu có
           source venv/bin/activate
           pip install -r requirements.txt
           
-          # 4. Tắt server cũ đang chạy ngầm (nếu có) để tránh trùng port
-          # Tắt server cũ nếu đang chạy
-          pkill -f uvicorn || true
-            
-            # Khởi chạy server FastAPI chạy ngầm và NGẮT HOÀN TOÀN kết nối nhập/xuất để giải phóng terminal
-          nohup venv/bin/uvicorn src.main:app --host 0.0.0.0 --port 8000 > uvicorn.log 2>&1 </dev/null &
+          # Tắt tiến trình python chạy main.py cũ nếu có
+          pkill -9 -f "python src/main.py" || true
+          
+          # Khởi chạy server Python thuần chạy ngầm và giải phóng terminal hoàn toàn
+          nohup python src/main.py > server.log 2>&1 </dev/null &
           
           echo "CD completed successfully!"  

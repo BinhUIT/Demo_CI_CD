@@ -1,17 +1,26 @@
 import pytest
-from fastapi.testclient import TestClient
+from io import BytesIO
+from unittest.mock import Mock
+from src.main import SimpleHTTPRequestHandler
 
-from src.main import app 
-
-
-client = TestClient(app)
-
-def test_read_root():
+def test_server_response():
+    # Giả lập (Mock) các thành phần luồng vào ra của request
+    request = Mock()
+    client_address = ('127.0.0.1', 8000)
+    server = Mock()
     
-    response = client.get("/")
+    # Tạo đối tượng handler để test
+    handler = SimpleHTTPRequestHandler(request, client_address, server)
     
+    # Giả lập hàm ghi file đầu ra
+    handler.wfile = BytesIO()
     
-    assert response.status_code == 200
+    # Chạy hàm xử lý request GET
+    handler.do_GET()
     
+    # Lấy kết quả mà server đã trả về
+    handler.wfile.seek(0)
+    result = handler.wfile.read().decode('utf-8')
     
-    assert response.json() == "Hello từ Server Azure! CD đã hoạt động thành công 🎉"
+    # Kiểm tra xem string trả về có đúng không
+    assert "Hello từ Server Azure!" in result
