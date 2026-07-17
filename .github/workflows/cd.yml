@@ -20,7 +20,7 @@ jobs:
         key: ${{ secrets.SERVER_SSH_KEY }}
         port: 22
         script: |
-          cd /home/azureuser/app
+          cd app/Demo_CI_CD
           
           # 1. Ép Git hủy bỏ mọi thay đổi cục bộ của các file đã có trong repo
           git reset --hard HEAD

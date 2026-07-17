@@ -1,6 +1,6 @@
 #!/bin/bash 
 # Di chuyển vào đúng thư mục dự án trên Azure
-cd app
+cd app/Demo_CI_CD
 
 # Kích hoạt môi trường và cập nhật thư viện
 source venv/bin/activate
