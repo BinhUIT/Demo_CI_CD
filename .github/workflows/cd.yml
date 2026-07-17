@@ -20,18 +20,20 @@ jobs:
         key: ${{ secrets.SERVER_SSH_KEY }}
         port: 22
         script: |
-          cd app
+          cd /home/azureuser/app
           
-          # 1. Kéo code mới nhất về (trong đó có file deploy.sh)
+          # 1. Ép Git hủy bỏ mọi thay đổi cục bộ của các file đã có trong repo
+          git reset --hard HEAD
+          
+          # 2. Xóa sạch sành sanh các file rác, file log tự sinh mới (chữ -d là thư mục, -f là file)
+          git clean -fd
+          
+          # 3. Giờ thì kéo code mới về mượt mà không bao giờ bị kẹt nữa
           git pull origin master
           
-          # 2. Cấp quyền thực thi cho file script
+          # 4. Cấp quyền và kích hoạt deploy script
           chmod +x deploy.sh
-          
-          # 3. Kích hoạt file script chạy độc lập hoàn toàn khỏi session SSH hiện tại
           ./deploy.sh </dev/null >/dev/null 2>&1 &
           
-          # Cho hệ thống nghỉ 1 giây để lệnh kịp kích hoạt
-          sleep 1
-          
+          sleep 2
           echo "CD triggered successfully!"  
