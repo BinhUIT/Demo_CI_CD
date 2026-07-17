@@ -22,10 +22,10 @@ jobs:
         script: |
           cd app/Demo_CI_CD
           
-          # 1. Ép Git hủy bỏ mọi thay đổi cục bộ của các file đã có trong repo
+          git checkout -- .
           git reset --hard HEAD
           
-          # 2. Xóa sạch sành sanh các file rác, file log tự sinh mới (chữ -d là thư mục, -f là file)
+          # 2. Xóa sạch các file rác tự sinh không nằm trong git (nếu chưa kịp đưa vào .gitignore)
           git clean -fd
           
           # 3. Giờ thì kéo code mới về mượt mà không bao giờ bị kẹt nữa
