@@ -10,4 +10,4 @@ pip install -r requirements.txt
 pkill -9 -f "python3 src/main.py" || true
 
 # Khởi chạy server Python thuần chạy ngầm hoàn toàn
-nohup python3 src/main.py > server.log 2>&1 &
+nohup python3 src/main.py > server.log 2>&1 & 
