@@ -9,7 +9,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         self.end_headers()
         
         # Nội dung string muốn trả về
-        message = "Hello từ Server Azure! Python thuần không cần FastAPI 🎉"
+        message = "Hello từ Server Azure! Python thuần không cần FastAPI"
         self.wfile.write(message.encode("utf-8"))
 
 def run_server():
