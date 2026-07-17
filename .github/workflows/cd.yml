@@ -21,14 +21,17 @@ jobs:
         port: 22
         script: |
           cd app
+          
+          # 1. Kéo code mới nhất về (trong đó có file deploy.sh)
           git pull origin master
-          source venv/bin/activate
-          pip install -r requirements.txt
           
-          # Tắt tiến trình python chạy main.py cũ nếu có
-          pkill -9 -f "python src/main.py" || true
+          # 2. Cấp quyền thực thi cho file script
+          chmod +x deploy.sh
           
-          # Khởi chạy server Python thuần chạy ngầm và giải phóng terminal hoàn toàn
-          nohup python src/main.py > server.log 2>&1 </dev/null &
+          # 3. Kích hoạt file script chạy độc lập hoàn toàn khỏi session SSH hiện tại
+          ./deploy.sh </dev/null >/dev/null 2>&1 &
           
-          echo "CD completed successfully!"  
+          # Cho hệ thống nghỉ 1 giây để lệnh kịp kích hoạt
+          sleep 1
+          
+          echo "CD triggered successfully!"  
