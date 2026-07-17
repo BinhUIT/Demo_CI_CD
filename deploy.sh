@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash 
 # Di chuyển vào đúng thư mục dự án trên Azure
 cd app
 
